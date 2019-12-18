@@ -1,0 +1,194 @@
+/*--------------------
+Body
+--------------------*/
+body {
+  height: 100vh;
+  margin: 0;
+  background: white;
+  color: #38383b;
+  font-size: 15px;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-family: 'Ubuntu';
+  overflow: hidden;
+}
+
+/*--------------------
+App
+--------------------*/
+.top-bar {
+	position: relative;
+	top: 5%;
+}
+
+
+.info {
+  z-index: 1;
+  position: relative;
+  top: 10px;
+  left: 25px;
+  padding: 5px;
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.search-form {
+  position: relative;
+  z-index: 1;
+  top: 5%;
+  left: 200px;
+  width: 350px;
+  height: 40px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.15);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background: #fff;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
+
+.search-form.focus {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+.search-input {
+  position: relative;
+  top: -3px;
+  left: 18px;
+  font-size: 16px;
+  font-family: 'Ubuntu';
+  background: none;
+  color: #5a6674;
+  width: 295px;
+  height: 20px;
+  border: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+}
+
+.search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.search-button {
+  position: relative;
+  top: 5px;
+  left: 20px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  outline: none !important;
+  cursor: pointer;
+}
+
+.search-button img {
+  width: 30px;
+  height: 30px;
+  fill: #5a6674;
+}
+
+.suggestion-list {
+  position: relative;
+  top: -8px;
+  visibility: hidden;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.25);
+  list-style-type: none;
+  font-size: 16px;
+  /*font-family: Ubuntu;*/
+  font-family: 'Ubuntu';
+  color: #5a6674;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.suggested-item {
+  position: relative;
+  left: 13px;
+  padding: 2px 0px;
+  cursor: default;
+}
+
+.suggested-item:hover {
+  color: black;
+}
+
+#svg-container {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+
+.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: auto;										
+    padding: 10px;				
+    font-size: 16px;	
+	color: white;	
+    background: #38383b;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);		
+    pointer-events: none;		
+}
+
+.main-stop-right {
+	stop-opacity: 0;
+    stop-color: white;  /* Indigo */
+}
+
+.main-stop-left {
+    stop-color: white;  /* Teal */
+}
+
+.outline-stop-right {
+	stop-opacity: 0;
+	stop-color: black;
+}
+
+.outline-stop-left {
+	stop-color: black;
+}
+
+.nodes:hover {
+	-webkit-transition: all 0.5s ease;
+  	transition: all 0.5s ease;
+	stroke: black;
+	fill: url(#mainGradient);
+}
+
+.labels {
+	position: relative;
+	font-family: 'Ubuntu';
+	fill: #38383b;
+	font-weight: bold;
+	pointer-events: none;
+}
+
+.markers {
+	fill: url(#mainGradient);	
+	stroke: url(#outlineGradient);
+	stroke-opacity: 1;
+}
+
+.marker-labels {
+	fill: black;
+	font-family: 'Courier';
+	font-size: 10px;
+	
+}
+
+path {
+  fill: none;
+  stroke: url(#outlineGradient);
+}
