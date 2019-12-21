@@ -23,8 +23,9 @@ function renderVisualization(subreddit){
 function clearVisualization(){
 	// remove svg from svg-container
 	container = document.getElementById("svg-container");
-	container.removeChild(container.firstChild);
-
+	if(container.firstChild){
+		container.removeChild(container.firstChild);
+	}
 	// remove tooltip
 	let tooltip = document.getElementsByClassName("tooltip")[0];
 	if(tooltip){tooltip.remove();}

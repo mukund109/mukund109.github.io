@@ -15,7 +15,7 @@ function visualize(svgContainer, data){
 		}
 	}
 	const minMetric_2 = minD;
-	const maxMetric_2 = maxD;
+	const maxMetric_2 = Math.max(200, maxD);
 	const maxMinorityCommenters = maxMC;
 	const centerNodeX =  3*maxRadius;
 	const centerNodeY = height/2;
@@ -239,7 +239,7 @@ function visualize(svgContainer, data){
 	/*--------Forces---------*/
 
 	/*
-	Note: Collision force should be > center node pull.
+	Note: Collision force should be > proximity force.
 	The central node's 'effective radius' = 'actual radius',
 	for the others 'effective radius' > 'actual radius
 	*/
@@ -259,11 +259,11 @@ function visualize(svgContainer, data){
 	var proximityForce = d3.forceLink(links)
 							.id(node => node.id)
 							.distance(link => link.target.proximity)
-							.strength(0.1);
+							.strength(0.2);
 	
 
 	var yAxisForce = d3.forceY(height/2)
-						.strength(0.015);
+						.strength(0.01);
 
 	/*var centerNodePull = d3.forceRadial()
 						.x(centerNodeX).y(centerNodeY)
