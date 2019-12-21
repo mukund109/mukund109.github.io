@@ -13,7 +13,6 @@ function httpGetAsync(url, callback)
 }
 
 function renderVisualization(subreddit){
-	console.log("composing visualization for " + subreddit);
 	clearVisualization()
 	httpGetAsync(baseUrl + '/data/' + subreddit, function(response){
 		visualize(document.getElementById("svg-container"), JSON.parse(response))

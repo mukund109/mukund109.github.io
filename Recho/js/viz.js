@@ -20,9 +20,6 @@ function visualize(svgContainer, data){
 	const centerNodeX =  3*maxRadius;
 	const centerNodeY = height/2;
 
-	console.log("minMetric_2 : " + minMetric_2);
-	console.log("maxMetric_2 : " + maxMetric_2);
-
 	/*------SVG Container------*/
 	const svg = d3.select(svgContainer)
 		.append("svg")
@@ -282,7 +279,7 @@ function visualize(svgContainer, data){
 		.force("yAxisForce", yAxisForce)
 		//.force("centerNodePull", centerNodePull)
 		.on("tick", updatePositions )
-		.on("end", endMessage )
+		//.on("end", endMessage )
 		.alphaMin(0.01);
 
 

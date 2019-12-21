@@ -2,7 +2,6 @@
 const autocomplete_cache = {}
 function httpGetAsyncCached(url, callback){
 	if (url in autocomplete_cache){
-		console.log("serving cached")
 		callback(autocomplete_cache[url]);
 	}
 	else{
@@ -15,14 +14,12 @@ function httpGetAsyncCached(url, callback){
 
 // removes all children from unordered list
 function removeListElements(ul){
-	console.log("removing list items")
 	while(ul.firstChild){ ul.removeChild(ul.firstChild); }
 }
 
 // adds list elements to unordered list
 function addListElements(ul, suggestions){
 	// set class attr and inner html
-	console.log("adding list items")
 	for(let i=0; i<suggestions.length; i++){
 		let li = document.createElement("li");
 		li.innerHTML = suggestions[i]
