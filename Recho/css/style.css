@@ -8,7 +8,7 @@ body {
   color: #38383b;
   font-size: 15px;
   /*font-family: 'Roboto', sans-serif;*/
-  font-family: 'Ubuntu';
+  font-family: larger Lato, Roboto, sans-serif;
   overflow: hidden;
 }
 
@@ -61,7 +61,7 @@ App
   top: -3px;
   left: 18px;
   font-size: 16px;
-  font-family: 'Ubuntu';
+  font-family: larger Lato, Roboto, sans-serif;
   background: none;
   color: #5a6674;
   width: 295px;
@@ -104,7 +104,7 @@ App
   list-style-type: none;
   font-size: 16px;
   /*font-family: Ubuntu;*/
-  font-family: 'Ubuntu';
+  font-family: larger Lato, Roboto, sans-serif;
   color: #5a6674;
   background-color: white;
   padding: 5px;
@@ -169,7 +169,7 @@ App
 
 .labels {
 	position: relative;
-	font-family: 'Ubuntu';
+	font-family: larger Lato, Roboto, sans-serif;
 	fill: #38383b;
 	font-weight: bold;
 	pointer-events: none;

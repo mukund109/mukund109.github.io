@@ -8,13 +8,13 @@ function visualize(svgContainer, data){
 	for(let i=0; i<data.points.length; i++){
 		if(data.points[i].sub1 != data.points[i].sub2){
 			maxD = Math.max(data.points[i].metric_2, maxD);
-			minD = Math.min(data.points[i].metric_2, minD);
+			// minD = Math.min(data.points[i].metric_2, minD);
 		}
 		if (data.points[i].metric_2<1){
 			maxMC = Math.max(data.points[i].unique_commenters, maxMC);
 		}
 	}
-	const minMetric_2 = minD;
+	const minMetric_2 = 0.1;
 	const maxMetric_2 = Math.max(200, maxD);
 	const maxMinorityCommenters = maxMC;
 	const centerNodeX =  3*maxRadius;
@@ -109,12 +109,12 @@ function visualize(svgContainer, data){
 			if (d.sub1 == d.sub2){ return [] }
 
 			return [{
-			"x": centerNodeX+scaleDistance(d.metric_2),
+			"x": centerNodeX+scaleDistance(Math.max(d.metric_2, minMetric_2)),
 			"y": scaleY(Math.random()),
 			"radius": (d.metric_2 > 1) ? scaleRadius(d.metric_1) : 
 					scaleRadius(0.5*d.unique_commenters/maxMinorityCommenters),
 			"id": d.sub2,
-			"proximity": scaleDistance(d.metric_2),
+			"proximity": scaleDistance(Math.max(d.metric_2, minMetric_2)),
 			"minority": (d.metric_2 < 1),
 			"unique_commenters": d.unique_commenters
 			}];
@@ -263,7 +263,7 @@ function visualize(svgContainer, data){
 	
 
 	var yAxisForce = d3.forceY(height/2)
-						.strength(0.01);
+						.strength(0.02);
 
 	/*var centerNodePull = d3.forceRadial()
 						.x(centerNodeX).y(centerNodeY)
