@@ -26,15 +26,18 @@
 
 			<a class="info" href="https://www.github.com/mukund109/Recho" target="_blank">Github</a>
 		</header>
-
-		<form class="search-form" autocomplete="off">
-	  		<input type="text" value="" placeholder="Enter subreddit" class="search-input" id="input">
-			<button id="submit-button" type="button" class="search-button">
-				<img class="submit-button" src="assets/arrow.svg">
-			</button>
+		<div id="search-container">
+			<form id="search-form" autocomplete="off">
+		  		<input type="text" value="" placeholder="Enter subreddit" class="search-input" id="input"> 
+				<button id="intersection-button" type="button" class="char-button" title="set intersection">∩</button>
+				<button id="difference-button" type="button" class="char-button" title="set difference">\</button>
+				<button id="submit-button" type="button" class="search-button">
+					<img class="submit-button" src="assets/arrow.svg">
+				</button>
+			</form>
 			<ul class="suggestion-list" id="suggestion-ul">
 			</ul>
-		</form>
+		</div>
 
 		<div id="svg-container">
 		
@@ -48,7 +51,11 @@
 		<script src="js/autocomplete.js"></script>
 
 		<script>
-			autocomplete(document.getElementById("input"), document.getElementById("suggestion-ul"), document.getElementById("submit-button"))
+			/*autocomplete(document.getElementById("input"), 
+				document.getElementById("suggestion-ul"), 
+				document.getElementById("submit-button"), 
+				document.getElementById("intersection-button"),
+				document.getElementById("difference-button"))*/
 		</script>
 
 	</body>

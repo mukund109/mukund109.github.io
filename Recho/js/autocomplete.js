@@ -28,63 +28,88 @@ function addListElements(ul, suggestions){
 	}
 }
 
-function autocomplete(input, output_ul, button){
+const search_container = document.getElementById("search-container")
+const input = document.getElementById("input")
+const output_ul = document.getElementById("suggestion-ul") 
+const button = document.getElementById("submit-button")
+const inter_button = document.getElementById("intersection-button")
+const diff_button = document.getElementById("difference-button")
 
-	// event listener for change in input
-	input.addEventListener("input", function(e){
 
-		const inputElement = this;
-		var query = this.value;
+document.body.addEventListener("click", function(e){
+	if (!search_container.contains(e.target)){
+		output_ul.style.visibility = "hidden";
+		removeListElements(output_ul);
+	}
+});
 
-		if (query=='') { 
-			output_ul.style.visibility = "hidden";
-			removeListElements(output_ul); 
-			return;
-		}
 
-		httpGetAsyncCached(baseUrl+'/autocomplete/'+query, function(response){
-	
-			removeListElements(output_ul);		
-	
-			if (query == inputElement.value){
-				const suggestions = JSON.parse(response).suggestions
+// event listener for change in input
+input.addEventListener("input", function(e){
 
-				if (suggestions.length == 0) {
-					output_ul.style.visibility = "hidden";
-					return;
-				}
-				addListElements(output_ul, suggestions)
-				output_ul.style.visibility = "visible";
+	const inputElement = this;
+	var query = this.value;
+
+	if (query=='') { 
+		output_ul.style.visibility = "hidden";
+		removeListElements(output_ul); 
+		return;
+	}
+
+	httpGetAsyncCached(baseUrl+'/autocomplete/'+query, function(response){
+
+		removeListElements(output_ul);		
+
+		if (query == inputElement.value){
+			const suggestions = JSON.parse(response).suggestions
+
+			if (suggestions.length == 0) {
+				output_ul.style.visibility = "hidden";
+				return;
 			}
-
-		});
-
-	});
-
-
-	// event listener for when autocomplete suggestion is clicked on
-	output_ul.addEventListener("click", function(e) {
-		if (e.target && e.target.matches(".suggested-item")) {
-			removeListElements(output_ul);
-			output_ul.style.visibility = "hidden";
-			input.value = e.target.innerHTML;
-			button.click();
+			addListElements(output_ul, suggestions)
+			output_ul.style.visibility = "visible";
 		}
+
 	});
 
+});
 
-	// button press
-	button.addEventListener("click", function(e){ 
+// event listener for when autocomplete suggestion is clicked on
+output_ul.addEventListener("click", function(e) {
+	if (e.target && e.target.matches(".suggested-item")) {
 		removeListElements(output_ul);
 		output_ul.style.visibility = "hidden";
-		renderVisualization(input.value);
-	});
+		input.value = e.target.innerHTML;
+		button.click();
+	}
+});
 
-	//'enter' key press
-	input.addEventListener("keydown", function(e){
-		if(event.keyCode == 13){ 
-			event.preventDefault();
-			button.click(); 
-		}
-	});
-}
+
+// button press
+button.addEventListener("click", function(e){ 
+	removeListElements(output_ul);
+	output_ul.style.visibility = "hidden";
+	renderVisualization(input.value);
+});
+
+//'enter' key press
+input.addEventListener("keydown", function(e){
+	if(e.keyCode == 13){ 
+		e.preventDefault();
+		button.click(); 
+	}
+});
+
+inter_button.addEventListener("mousedown", function(e){
+	e.preventDefault();
+	input.value = input.value.trim() + " ∩ ";
+	input.dispatchEvent(new Event("input"));
+});
+
+diff_button.addEventListener("mousedown", function(e){
+	e.preventDefault();
+	input.value = input.value.trim() + " \\ ";
+	input.dispatchEvent(new Event("input"));
+});
+
