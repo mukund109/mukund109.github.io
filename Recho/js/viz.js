@@ -3,10 +3,18 @@ function visualize(svgContainer, data){
 	const width = 1000, height = 600;
 	const margin = 50, maxRadius = 50;
 
-	
+	var centerNodeId = data.metadata.subreddit
+
+	const isIntersection = centerNodeId.includes('∩');
+	const isSubtraction = centerNodeId.includes('-')
+	const isComposite = isIntersection || isSubtraction
+	const [compositeSub1, compositeSub2] = isIntersection ? centerNodeId.split(" ∩ ") : centerNodeId.split(" - ");
+
+	function isCompNode(x){ return x==compositeSub1 || x==compositeSub2; }
+
 	var maxD = 1, minD = 1, maxMC = 0;
 	for(let i=0; i<data.points.length; i++){
-		if(data.points[i].sub1 != data.points[i].sub2){
+		if(data.points[i].sub2 != centerNodeId && !(isComposite && isCompNode(data.points[i].sub2))){
 			maxD = Math.max(data.points[i].metric_2, maxD);
 			// minD = Math.min(data.points[i].metric_2, minD);
 		}
@@ -102,11 +110,11 @@ function visualize(svgContainer, data){
 	/*----Creating data bindings (nodes) for d3 selections------*/
 
 	//assign radius, random starting positions
-	const centerPoint = data.points.find(d => d.sub1 == d.sub2)
-
 	var nodes = data.points.flatMap( function(d){
 
-			if (d.sub1 == d.sub2){ return [] }
+			if (centerNodeId == d.sub2){ return []; }
+	
+			if (isComposite && isCompNode(d.sub2)){return [];}
 
 			return [{
 			"x": centerNodeX+scaleDistance(Math.max(d.metric_2, minMetric_2)),
@@ -119,9 +127,13 @@ function visualize(svgContainer, data){
 			"unique_commenters": d.unique_commenters
 			}];
 		});
+
 	//center node
-	var centerNodeId = data.points[0].sub1
-	nodes.push({"x": centerNodeX, "y": centerNodeY, "fx": centerNodeX, "fy": centerNodeY, "radius": maxRadius, "id": centerNodeId, "proximity": 0, "minority":false, "unique_commenters":centerPoint.unique_commenters});
+	nodes.push({"id": centerNodeId,
+				"x": centerNodeX, "y": centerNodeY, 
+				"fx": centerNodeX, "fy": centerNodeY, 
+				"radius": maxRadius, "proximity": 0, "minority":false,
+				"unique_commenters":data.metadata.unique_commenters});
 
 
 
@@ -149,7 +161,7 @@ function visualize(svgContainer, data){
 					.enter().append("text")
 					.attr("class", "labels")
 					.attr("dy", ".31em")
-					.text( d => d.id)
+					.text( d => d.id )
 					.style("text-anchor", "middle")
 					.style("font-size", d => scaleFont(d.radius, d.id.length))
 					.attr("visibility", d => fontVisibility(d.radius, d.id.length))
@@ -163,6 +175,11 @@ function visualize(svgContainer, data){
 
 	/*----------Tooltip----------*/
 	function nodeDescription(d){
+		if (d.id==centerNodeId && isComposite){
+			return "r/" + compositeSub1 + (isIntersection ? " ∩ " :" - ") + 
+					"r/" + compositeSub2 + "<br>" +
+					d.unique_commenters+" distinct commenters";						
+		}
 		return "r/"+d.id+"<br>"+d.unique_commenters+" distinct commenters";
 	}
 

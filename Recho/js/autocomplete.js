@@ -109,7 +109,7 @@ inter_button.addEventListener("mousedown", function(e){
 
 diff_button.addEventListener("mousedown", function(e){
 	e.preventDefault();
-	input.value = input.value.trim() + " \\ ";
+	input.value = input.value.trim() + " - ";
 	input.dispatchEvent(new Event("input"));
 });
 
