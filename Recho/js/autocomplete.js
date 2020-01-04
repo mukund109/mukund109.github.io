@@ -22,8 +22,11 @@ function addListElements(ul, suggestions){
 	// set class attr and inner html
 	for(let i=0; i<suggestions.length; i++){
 		let li = document.createElement("li");
-		li.innerHTML = suggestions[i]
-		li.setAttribute("class", "suggested-item")
+		li.innerHTML = suggestions[i];
+		li.setAttribute("class", "suggested-item");
+		li.setAttribute("tabIndex", "0");
+		li.addEventListener("mouseover", function(e){this.style.color = "black";});
+		li.addEventListener("mouseleave", function(e){this.style.color = '';});
 		ul.appendChild(li);
 	}
 }
@@ -44,6 +47,34 @@ document.body.addEventListener("click", function(e){
 });
 
 
+var chosenSuggestion;
+
+function updateChosen(toNext){
+	if(chosenSuggestion){
+		next = toNext ? chosenSuggestion.nextSibling : chosenSuggestion.previousSibling;
+		if (!next){return;}
+		chosenSuggestion.dispatchEvent(new Event("mouseleave"));
+		chosenSuggestion = next;
+		chosenSuggestion.dispatchEvent(new Event("mouseover"));
+		input.value = chosenSuggestion.innerHTML;
+	}
+	else{
+		chosenSuggestion = toNext ? output_ul.firstChild : output_ul.lastChild;
+		chosenSuggestion.dispatchEvent(new Event("mouseover"));
+		input.value = chosenSuggestion.innerHTML;
+	}
+}
+
+document.body.addEventListener("keydown", function(e){
+	if(document.activeElement===input){
+		if(e.keyCode == 40 || e.keyCode == 38){
+			e.preventDefault();
+			updateChosen(e.keyCode==40);
+		}
+	}
+});
+
+
 // event listener for change in input
 input.addEventListener("input", function(e){
 
@@ -56,22 +87,31 @@ input.addEventListener("input", function(e){
 		return;
 	}
 
-	httpGetAsyncCached(baseUrl+'/autocomplete/'+query, function(response){
+	chosenSuggestion = undefined;
 
-		removeListElements(output_ul);		
+	
+	setTimeout( function(){
+		
+		if (inputElement.value != query){return;}
 
-		if (query == inputElement.value){
-			const suggestions = JSON.parse(response).suggestions
+		httpGetAsyncCached(baseUrl+'/autocomplete/'+query, function(response){
 
-			if (suggestions.length == 0) {
-				output_ul.style.visibility = "hidden";
-				return;
+			removeListElements(output_ul);		
+
+			if (query == inputElement.value){
+				const suggestions = JSON.parse(response).suggestions
+
+				if (suggestions.length == 0) {
+					output_ul.style.visibility = "hidden";
+					return;
+				}
+				addListElements(output_ul, suggestions)
+				output_ul.style.visibility = "visible";
 			}
-			addListElements(output_ul, suggestions)
-			output_ul.style.visibility = "visible";
-		}
 
-	});
+		});
+
+	}, 500)
 
 });
 
