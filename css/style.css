@@ -223,3 +223,15 @@ path {
   fill: none;
   stroke: url(#outlineGradient);
 }
+
+#instructions {
+  position: absolute;
+  text-align: center;
+  bottom: 20px; 
+  width: 100%; 
+  font-size: 18px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+

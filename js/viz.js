@@ -22,7 +22,7 @@ function visualize(svgContainer, data){
 			maxMC = Math.max(data.points[i].unique_commenters, maxMC);
 		}
 	}
-	const minMetric_2 = 0.1;
+	const minMetric_2 = 0.01;
 	const maxMetric_2 = Math.max(200, maxD);
 	const maxMinorityCommenters = maxMC;
 	const centerNodeX =  3*maxRadius;
@@ -119,10 +119,11 @@ function visualize(svgContainer, data){
 			return [{
 			"x": centerNodeX+scaleDistance(Math.max(d.metric_2, minMetric_2)),
 			"y": scaleY(Math.random()),
-			"radius": (d.metric_2 > 1) ? scaleRadius(d.metric_1) : 
-					scaleRadius(0.5*d.unique_commenters/maxMinorityCommenters),
+			"radius": (d.metric_2 >= 1) ? scaleRadius(d.metric_1) : 
+					scaleRadius(Math.max(0.5*d.unique_commenters/maxMinorityCommenters, 0.5*0.05)),
 			"id": d.sub2,
 			"proximity": scaleDistance(Math.max(d.metric_2, minMetric_2)),
+			"disconnected": d.disconnected,
 			"minority": (d.metric_2 < 1),
 			"unique_commenters": d.unique_commenters
 			}];
@@ -132,7 +133,7 @@ function visualize(svgContainer, data){
 	nodes.push({"id": centerNodeId,
 				"x": centerNodeX, "y": centerNodeY, 
 				"fx": centerNodeX, "fy": centerNodeY, 
-				"radius": maxRadius, "proximity": 0, "minority":false,
+				"radius": maxRadius, "proximity": 0, "disconnected":false, "minority":false,
 				"unique_commenters":data.metadata.unique_commenters});
 
 
@@ -147,7 +148,7 @@ function visualize(svgContainer, data){
 		.attr("cx", d => d.x)
 		.attr("cy", d => d.y)
 		.attr("r", d => d.radius)
-		.style("fill", d => (d.id == centerNodeId ? "#f56262" : (d.minority ? "#d1abb9":"#ffb000")))
+		.style("fill", d => (d.id == centerNodeId ? "#ff6666" : (d.disconnected ? "#e3e3e3": (d.minority ? "#c2c2c2": "#78acff"))))
 		.attr("opacity", 0);
 
 	circles.transition()
@@ -207,9 +208,9 @@ function visualize(svgContainer, data){
 
 	var marker_data = [{"radius": scaleDistance(0.1), "x":centerNodeX, "y":centerNodeY, "offset":"43%"},
 					{"radius": scaleDistance(1), "x":centerNodeX, "y":centerNodeY, "offset":"40%"},
-					{"radius": scaleDistance(10), "x":centerNodeX, "y":centerNodeY, "offset":"30%"},
-					{"radius": scaleDistance(100), "x":centerNodeX, "y":centerNodeY, "offset":"10%"},
-					{"radius": scaleDistance(1000), "x":centerNodeX, "y":centerNodeY, "offset":"10%"}]
+					{"radius": scaleDistance(10), "x":centerNodeX, "y":centerNodeY, "offset":"33%"},
+					{"radius": scaleDistance(100), "x":centerNodeX, "y":centerNodeY, "offset":"25%"},
+					{"radius": scaleDistance(1000), "x":centerNodeX, "y":centerNodeY, "offset":"0%"}]
 	
 	
 	//path for marker labels
@@ -245,7 +246,7 @@ function visualize(svgContainer, data){
 	marker_labels.append("textPath")
 				.attr("startOffset", d => d.offset)
 				.attr("xlink:href", (_,i) => '#curvedTextPath'+i)
-				.text( d => "multiplier ~ "+scaleDistance.invert(d.radius).toFixed(0))
+				.text( d => "multiplier ~ "+scaleDistance.invert(d.radius).toFixed(1))
 				.attr("visibility", d => d.radius > 1.5*maxRadius ? "visible" : "hidden")
 
 	marker_labels.transition()

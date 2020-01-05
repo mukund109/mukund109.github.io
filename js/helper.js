@@ -16,7 +16,6 @@ function renderVisualization(subreddit){
 	httpGetAsync(baseUrl + '/data/' + subreddit, function(response){
 		visualize(document.getElementById("svg-container"), JSON.parse(response))
 	});
-	// need to check if subreddit is valid?
 }
 
 function clearVisualization(){
