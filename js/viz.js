@@ -205,11 +205,11 @@ function visualize(svgContainer, data){
 
 	/*---------Concentric Markers, and Labels-----------*/
 
-	var marker_data = [{"radius": scaleDistance(0.1), "x":centerNodeX, "y":centerNodeY},
-					{"radius": scaleDistance(1), "x":centerNodeX, "y":centerNodeY},
-					{"radius": scaleDistance(10), "x":centerNodeX, "y":centerNodeY},
-					{"radius": scaleDistance(100), "x":centerNodeX, "y":centerNodeY},
-					{"radius": scaleDistance(1000), "x":centerNodeX, "y":centerNodeY}]
+	var marker_data = [{"radius": scaleDistance(0.1), "x":centerNodeX, "y":centerNodeY, "offset":"43%"},
+					{"radius": scaleDistance(1), "x":centerNodeX, "y":centerNodeY, "offset":"40%"},
+					{"radius": scaleDistance(10), "x":centerNodeX, "y":centerNodeY, "offset":"30%"},
+					{"radius": scaleDistance(100), "x":centerNodeX, "y":centerNodeY, "offset":"10%"},
+					{"radius": scaleDistance(1000), "x":centerNodeX, "y":centerNodeY, "offset":"10%"}]
 	
 	
 	//path for marker labels
@@ -243,7 +243,7 @@ function visualize(svgContainer, data){
 					.attr("dy", "-0.3em");
 
 	marker_labels.append("textPath")
-				.attr("startOffset", (d,i) => (4-i) + "0%")
+				.attr("startOffset", d => d.offset)
 				.attr("xlink:href", (_,i) => '#curvedTextPath'+i)
 				.text( d => "multiplier ~ "+scaleDistance.invert(d.radius).toFixed(0))
 				.attr("visibility", d => d.radius > 1.5*maxRadius ? "visible" : "hidden")

@@ -100,7 +100,7 @@ input.addEventListener("input", function(e){
 
 			removeListElements(output_ul);		
 
-			if (query == inputElement.value){
+			if (query == inputElement.value && document.activeElement===input){
 				const suggestions = JSON.parse(response).suggestions
 
 				if (suggestions.length == 0) {
@@ -113,7 +113,7 @@ input.addEventListener("input", function(e){
 
 		});
 
-	}, 500)
+	}, 350)
 
 });
 
@@ -132,6 +132,7 @@ output_ul.addEventListener("click", function(e) {
 button.addEventListener("click", function(e){ 
 	removeListElements(output_ul);
 	output_ul.style.visibility = "hidden";
+	input.blur()
 	renderVisualization(input.value);
 });
 
