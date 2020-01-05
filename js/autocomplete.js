@@ -113,7 +113,7 @@ input.addEventListener("input", function(e){
 
 		});
 
-	}, 350)
+	}, 200)
 
 });
 
