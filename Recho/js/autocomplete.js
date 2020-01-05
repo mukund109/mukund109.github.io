@@ -38,7 +38,7 @@ const button = document.getElementById("submit-button")
 const inter_button = document.getElementById("intersection-button")
 const diff_button = document.getElementById("difference-button")
 
-
+// Hides suggestion list when user clicks elsewhere on the screen
 document.body.addEventListener("click", function(e){
 	if (!search_container.contains(e.target)){
 		output_ul.style.visibility = "hidden";
@@ -47,8 +47,10 @@ document.body.addEventListener("click", function(e){
 });
 
 
+// the suggestion chosen by arrow keys
 var chosenSuggestion;
 
+// updates the 'chosenSuggestion' to either its sibling, or the first/last one in the dropdown
 function updateChosen(toNext){
 	if(chosenSuggestion){
 		next = toNext ? chosenSuggestion.nextSibling : chosenSuggestion.previousSibling;
@@ -64,7 +66,7 @@ function updateChosen(toNext){
 		input.value = chosenSuggestion.innerHTML;
 	}
 }
-
+// on arrow keydown, updates 'chosenSuggestion', iff the focus is on the 'input' element
 document.body.addEventListener("keydown", function(e){
 	if(document.activeElement===input){
 		if(e.keyCode == 40 || e.keyCode == 38){
