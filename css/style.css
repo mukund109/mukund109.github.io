@@ -227,10 +227,11 @@ path {
 #instructions {
   position: absolute;
   text-align: center;
-  bottom: 20px; 
+  background-color: white;
+  bottom: 0px; 
   width: 100%; 
   font-size: 18px;
-  opacity: 0.6;
+  opacity: 1;
   pointer-events: none;
 }
 
