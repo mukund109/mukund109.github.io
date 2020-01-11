@@ -35,9 +35,8 @@ App
 #search-container {
   position: relative;
   z-index: 1;
-  top: 3%;
-  /*background-color: black;*/
-  left: 25px;
+  top: 18px;
+  left: 20px;
   width: min-content;
   height: min-content;
 }
@@ -164,7 +163,7 @@ App
 
 .tooltip {	
     position: absolute;			
-    text-align: center;			
+    text-align: left;			
     width: auto;										
     padding: 10px;				
     font-size: 16px;	
@@ -172,6 +171,18 @@ App
     background: #38383b;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);		
     pointer-events: none;		
+}
+
+mark.centerNode {
+  background: inherit;
+  color: #fa8c8c;
+  font-weight: bold;
+}
+
+mark.nonCenterNode{
+  background: inherit;
+  color: #a1d5ff;
+  font-weight: bold;
 }
 
 .main-stop-right {
@@ -228,7 +239,7 @@ path {
   position: absolute;
   text-align: center;
   background-color: white;
-  bottom: 0px; 
+  bottom: 5px; 
   width: 100%; 
   font-size: 18px;
   opacity: 1;

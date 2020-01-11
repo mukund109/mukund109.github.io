@@ -1,5 +1,8 @@
 function visualize(svgContainer, data){
 
+	//THIS IS DANGEROUS
+	const totalRedditCommenters = 14150000;
+
 	const width = 1000, height = 600;
 	const margin = 50, maxRadius = 50;
 
@@ -123,9 +126,10 @@ function visualize(svgContainer, data){
 					scaleRadius(Math.max(0.5*d.unique_commenters/maxMinorityCommenters, 0.5*0.05)),
 			"id": d.sub2,
 			"proximity": scaleDistance(Math.max(d.metric_2, minMetric_2)),
-			"disconnected": d.disconnected,
-			"minority": (d.metric_2 < 1),
-			"unique_commenters": d.unique_commenters
+			"isDisconnected": d.disconnected,
+			"isMinority": (d.metric_2 < 1),
+			"unique_commenters": d.unique_commenters,
+			"p_hat": d.metric_1
 			}];
 		});
 
@@ -133,7 +137,7 @@ function visualize(svgContainer, data){
 	nodes.push({"id": centerNodeId,
 				"x": centerNodeX, "y": centerNodeY, 
 				"fx": centerNodeX, "fy": centerNodeY, 
-				"radius": maxRadius, "proximity": 0, "disconnected":false, "minority":false,
+				"radius": maxRadius, "proximity": 0, "isDisconnected":false, "isMinority":false,
 				"unique_commenters":data.metadata.unique_commenters});
 
 
@@ -148,7 +152,7 @@ function visualize(svgContainer, data){
 		.attr("cx", d => d.x)
 		.attr("cy", d => d.y)
 		.attr("r", d => d.radius)
-		.style("fill", d => (d.id == centerNodeId ? "#ff6666" : (d.disconnected ? "#e3e3e3": (d.minority ? "#c2c2c2": "#78acff"))))
+		.style("fill", d => (d.id == centerNodeId ? "#ff6666" : (d.isDisconnected ? "#e3e3e3": (d.isMinority ? "#c2c2c2": "#78acff"))))
 		.attr("opacity", 0);
 
 	circles.transition()
@@ -175,16 +179,88 @@ function visualize(svgContainer, data){
 	
 
 	/*----------Tooltip----------*/
-	function nodeDescription(d){
-		if (d.id==centerNodeId && isComposite){
-			return "r/" + compositeSub1 + (isIntersection ? " ∩ " :" - ") + 
-					"r/" + compositeSub2 + "<br>" +
-					d.unique_commenters+" distinct commenters";						
-		}
-		return "r/"+d.id+"<br>"+d.unique_commenters+" distinct commenters";
+
+	let centerNameFormatted;
+	
+	if (isComposite){
+		centerNameFormatted = "r/" + compositeSub1 + 
+						(isIntersection ? " ∩ " :" - ") + "r/" + compositeSub2;
+	}
+	else {
+		centerNameFormatted = "r/" + centerNodeId;
 	}
 
-	var tooltip = d3.select("body").append("text")	
+	function nodeDescription(d){
+
+		if (d.id == centerNodeId){
+			return `<div style="text-align:center">
+						<mark class="centerNode">${centerNameFormatted}</mark>
+					</div>
+					Distinct commenters ~<b>${d.unique_commenters}</b>`;
+		}
+
+		if (!d.isMinority && !d.isDisconnected){
+			let p_hat = d.p_hat * 100;
+			let multiplier = scaleDistance.invert(d.proximity);
+
+			return `<div style="text-align:center">
+			<mark class="nonCenterNode">r/${d.id}</mark>
+			</div>` +
+
+			`Distinct commenters ~ <b>${d.unique_commenters}</b>` +
+
+			`<br>Multiplier ~ <b>${multiplier.toFixed(2)}</b>` +
+
+			`<br>~<b>${p_hat.toFixed(2)}%</b> of 
+			<mark class="centerNode"> ${centerNameFormatted} </mark>
+			 users also commented on 
+			<mark class="nonCenterNode">r/${d.id}</mark>` +
+
+			`<br>~<b>${(p_hat/multiplier).toFixed(2)}%</b> of active reddit 
+			users commented on 
+			<mark class="nonCenterNode">r/${d.id}</mark>`;
+		}
+		else if (d.isMinority && !d.isDisconnected){
+			let p = d.unique_commenters/totalRedditCommenters;
+			let multiplier = scaleDistance.invert(d.proximity);
+
+			return `<div style="text-align:center">
+			<mark class="nonCenterNode">r/${d.id}</mark>
+			</div>` +
+
+			`Distinct commenters ~ <b>${d.unique_commenters}</b>` +
+
+			`<br> Multiplier ~ <b>${multiplier.toFixed(2)}</b>` +
+
+			`<br>${(d.p_hat*100<0.005) ? ("< <b>0.005") : "~<b>"+(d.p_hat*100).toFixed(2)}%</b> of 
+			<mark class="centerNode"> ${centerNameFormatted} </mark>
+			 users also commented on 
+			<mark class="nonCenterNode">r/${d.id}</mark>` +
+
+			`<br>~<b>${(p*100).toFixed(2)}%</b> of active reddit 
+			users commented on 
+			<mark class="nonCenterNode">r/${d.id}</mark>`;
+
+		}
+		else {
+			let p = d.unique_commenters/totalRedditCommenters;
+			return `<div style="text-align:center">
+						<mark class="nonCenterNode">r/${d.id}</mark>
+					</div>` + 
+		
+			`Distinct commenters ~ <b>${d.unique_commenters}</b>` +
+		
+			`<br> No <mark class="centerNode">${centerNameFormatted}</mark>
+			 user commented on <mark class="nonCenterNode">r/${d.id}</mark>` +
+			
+			`<br>~<b>${(p*100).toFixed(2)}%</b> of active reddit 
+			users commented on 
+			<mark class="nonCenterNode">r/${d.id}</mark>`;
+		}
+		
+	}
+
+	var tooltip = d3.select("body").append("div")	
     	.attr("class", "tooltip")				
     	.style("opacity", 0);
 
