@@ -42,27 +42,6 @@ function visualize(svgContainer, data){
 		.classed("svg-content", true)
 
 	const svg_g = svg.append("g")
-
-
-
-	/*----------Gradient---------*/
-	
-    // Create the svg:defs element and the main gradient definition.
-    var svgDefs = svg.append('defs');
-
-	var outlineGradient = svgDefs.append('radialGradient')
-        .attr('id', 'outlineGradient').attr("cx", 1).attr("cy",0.5).attr("r",0.7);
-
-    // Create the stops of the main gradient. Each stop will be assigned
-    // a class to style the stop using CSS.
-
-    outlineGradient.append('stop')
-        .attr('class', 'outline-stop-left')
-        .attr('offset', '0')
-
-	outlineGradient.append('stop')
-        .attr('class', 'outline-stop-right')
-        .attr('offset', '1');
 	
 	/*-----Scales-----*/
 

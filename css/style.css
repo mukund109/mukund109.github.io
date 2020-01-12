@@ -207,7 +207,6 @@ mark.nonCenterNode{
 	-webkit-transition: all 0.5s ease;
   	transition: all 0.5s ease;
 	stroke: black;
-	fill: url(#mainGradient);
 }
 
 .labels {
@@ -226,7 +225,7 @@ mark.nonCenterNode{
 
 path {
   fill: none;
-  stroke: url(#outlineGradient);
+  stroke: #d1d1d1;
 }
 
 #instructions {
