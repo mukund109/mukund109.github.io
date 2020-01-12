@@ -218,12 +218,6 @@ mark.nonCenterNode{
 	pointer-events: none;
 }
 
-.markers {
-	fill: url(#mainGradient);	
-	stroke: url(#outlineGradient);
-	stroke-opacity: 1;
-}
-
 .marker-labels {
 	fill: black;
 	font-family: 'Courier';

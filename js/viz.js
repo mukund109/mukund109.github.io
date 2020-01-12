@@ -50,21 +50,11 @@ function visualize(svgContainer, data){
     // Create the svg:defs element and the main gradient definition.
     var svgDefs = svg.append('defs');
 
-    var mainGradient = svgDefs.append('radialGradient')
-        .attr('id', 'mainGradient').attr("cx", 1).attr("cy",0.5).attr("r",0.7);
-
 	var outlineGradient = svgDefs.append('radialGradient')
         .attr('id', 'outlineGradient').attr("cx", 1).attr("cy",0.5).attr("r",0.7);
 
     // Create the stops of the main gradient. Each stop will be assigned
     // a class to style the stop using CSS.
-    mainGradient.append('stop')
-        .attr('class', 'main-stop-left')
-        .attr('offset', '0')
-
-	mainGradient.append('stop')
-        .attr('class', 'main-stop-right')
-        .attr('offset', '1');
 
     outlineGradient.append('stop')
         .attr('class', 'outline-stop-left')
@@ -73,8 +63,6 @@ function visualize(svgContainer, data){
 	outlineGradient.append('stop')
         .attr('class', 'outline-stop-right')
         .attr('offset', '1');
-
-	
 	
 	/*-----Scales-----*/
 
