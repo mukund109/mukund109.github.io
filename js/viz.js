@@ -338,10 +338,8 @@ function visualize(svgContainer, data){
 		.force("proximity", proximityForce)
 		.force("collision", collisionForce)
 		.force("yAxisForce", yAxisForce)
-		//.force("centerNodePull", centerNodePull)
-		.on("tick", updatePositions )
-		//.on("end", endMessage )
-		.alphaMin(0.01);
+		.alphaMin(0.01)
+		.stop()
 
 
 	function updatePositions(){
@@ -350,11 +348,14 @@ function visualize(svgContainer, data){
 		labels.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
 	}
 
+  for(var i = 0, n = Math.ceil(Math.log(sim.alphaMin()) / Math.log(1 - sim.alphaDecay())); i < n; ++i) {
+    sim.tick();
+  }
+	updatePositions()
+
 	function endMessage(){
 		console.log("Finished Simulation")
-		
 	}
-	
 	
 	/*----- Zoom behaviour-----*/
 	svg.call(d3.zoom().on("zoom", function () {
