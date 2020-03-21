@@ -1,4 +1,4 @@
-var baseUrl = "http://api.subreddit.space"
+var baseUrl = "https://api.subreddit.space"
 
 function httpGetAsync(url, callback)
 {
