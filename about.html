@@ -20,14 +20,14 @@
 
 <body class="stackedit">
   <div class="stackedit__html"><h2 id="about">About</h2>
-<p><a href="http://viz.subreddit.space">SubredditSpace</a> visualizes subreddits that are closely related (or unrelated) based on the number of users they have in common. By analyzing all Reddit comments from January 2019 to July 2019 (~ 30GB of data) it calculates a few key metrics for all pairs of active subreddits. These metrics inform three main visual parameters:</p>
+<p><a href="https://viz.subreddit.space">SubredditSpace</a> visualizes subreddits that are closely related (or unrelated) based on the number of users they have in common. By analyzing all Reddit comments from January 2019 to July 2019 (~ 30GB of data) it calculates a few key metrics for all pairs of active subreddits. These metrics inform three main visual parameters:</p>
 <ul>
 <li><code>Color</code>:  Blue subreddits have a lot of users in common with the red one. The grey/white ones have few/zero users in common with the red one. Subreddits that aren’t shown in the visualization fall somewhere in between.</li>
 <li><code>Size</code>: The size of the blue circle is determined by the number of red subreddit users that have commented on the blue subreddit. So if 50% of all red subreddit users commented on the blue subreddit, then the area of the blue circle with be half that of the red one. The size of the grey/white ones is computed simply based on the number of users.</li>
 <li><code>Distance</code>: The distance from the red subreddit is determined by the value of the <em>multiplier</em>. The multiplier in turn is determined by how much more likely a red subreddit user is to comment on a blue/white one, compared to the average Reddit user. In other words, its the ratio of the two percentages you see when you hover over the circles.<br>
 <br></li>
 </ul>
-<p><img src="http://viz.subreddit.space/assets/tooltip-demo2.gif" alt="Tooltip demo"><br><br>
+<p><img src="https://viz.subreddit.space/assets/tooltip-demo2.gif" alt="Tooltip demo"><br><br>
 <br></p>
 <p><strong>Set algebra</strong><br>
 For the purpose of this visualization, we can think of a subreddit as a mathematical <em>set</em> of redditors who’ve commented on it. Then the intersection between two subreddits i.e. <strong>subreddit A ∩ subreddit B</strong> can be defined as the set of all redditors who have commented on both. Similarly <strong>subreddit A - subreddit B</strong> can be defined as the set of all redditors who’ve commented on subreddit A but not on subreddit B.</p>
