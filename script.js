@@ -5,7 +5,7 @@ function toggleOn() {
 }
 
 function toggleOff() {
-  element.innerHTML = "4.3 million"
+  element.innerHTML = "4.3 mil"
 }
 
 element.addEventListener('mouseover', toggleOn)
